@@ -1,4 +1,6 @@
 <?php
+include './db_controller.php';
+
 class request{
 
 	public $app;
