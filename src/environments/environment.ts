@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  api: 'http://172.24.115.143/invoices-api/',
+  api: '//172.24.115.143/invoicesSystem/api/',
   debug: true
 };
