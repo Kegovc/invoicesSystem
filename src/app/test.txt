@@ -1,0 +1,89 @@
+import { Component, OnInit,AfterViewInit ,ElementRef, ViewChild  } from '@angular/core';
+import { UserService } from './../shared/services/user.service';
+import { Router } from '@angular/router'
+import { FormBuilder, FormControl, FormGroup, Validator, Validators } from '@angular/forms'
+import { ErrorHandlerService } from './../shared/services/error-handler.service'
+
+@Component({
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss']
+})
+export class SignupComponent implements OnInit, AfterViewInit {
+  public myForm: FormGroup;
+  // @ViewChild('myForm') myForm: ElementRef//MODO NO REACTIVO DE HACER UN DOCUMENTE.GETBYID
+  public data:any={};
+  public errorMessages:any={};
+
+  constructor(
+    private userService:UserService,
+    private router:Router,
+    private formBuilder:FormBuilder,
+    private errorHandlerService:ErrorHandlerService
+  ) { }
+
+  ngOnInit() {
+    this.createForm();
+  }
+  ngAfterViewInit(){
+    console.log(this.myForm);
+  }
+
+
+
+  createForm(){
+    this.myForm = this.formBuilder.group({
+      code: ['',Validators.required],
+      name: ['',Validators.required],
+      email: ['',[Validators.required,Validators.email]],
+      password: ['',Validators.required]
+
+    });
+
+    console.log(this.myForm)
+  }
+
+  hasError(controlName, error,force = false){
+    console.log(this.myForm)
+    let control = this.myForm.controls[controlName];
+    let errors = control.errors;
+    try{
+      return errors[error]&& control.dirty;
+    }
+    catch(e){
+      return false;
+    }
+  }
+
+
+  showMenssag(){
+    for(var k in this.myForm.controls){
+      if(this.myForm.controls.hasOwnProperty(k)){
+        this.errorMessages[k]=this.hasError(k,'required',true)
+      }
+    }
+  }
+
+  addUser(){
+    console.log("Data: ",this.data);
+
+    if(this.myForm.invalid){
+      this.showMenssag();
+      return false;
+    }
+    else{
+      this.userService.register(this.data)
+      .then(response=>{
+        console.log('Usuarios creado',response);
+        this.router.navigate(['/login']);
+
+      })
+      .catch(error=>{
+        this.errorHandlerService.handleError(error.json());
+      }
+      );
+    }
+
+  }
+
+}
