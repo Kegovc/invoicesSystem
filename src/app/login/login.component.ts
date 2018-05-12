@@ -29,31 +29,53 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.createForm();
   }
 
   createForm() {
     this.loginForm = this.formBuilder.group( {
-      key: ['', Validators.required],
-      rfc: ['', [Validators.required, Validators.pattern('\[a-zA-z]{3,4}')]]
+      rfc: ['', [Validators.required, Validators.pattern('\[a-z A-z]{3,4}[0-9]{6}[a-z A-Z 0-9]{3}')]]
     });
   }
 
   doLongin() {
     if (environment.debug) { console.log( 'DEBUG : ', this.data ); }
 
-    const _success: boolean = this.doValidate();
-
-    if ( _success ) {
-      this.router.navigate(['/invoices']);
-    }
-
+    this.doValidate();
   }
+
+  doValidate() {
+    this.showMessages();
+    if (!this.loginForm.valid) {
+      console.log('Error: ', this.errorMessages);
+      return ;
+    }
+    // tslint:disable-next-line:one-line
+    else {
+      this.userService.login(this.data)
+      .then(response => {
+        console.log('DEBUG : ', response);
+        this.router.navigate(['/invoices']);
+      })
+      .catch(error => {
+        console.error('Error : ', error);
+      });
+    }
+  }
+
+
 
   hasError(controlName, error, force = false) {
     const control = this.loginForm.controls[controlName];
-
     try {
-      return control.errors[error] && (control.dirty || force);
+      if (!control.errors.hasOwnProperty('required')) {
+        try {
+          return control.errors[error] && (control.dirty || force);
+        } catch (e) {
+          return false;
+        }
+      }
+      return true;
     } catch (e) {
       return false;
     }
@@ -63,32 +85,12 @@ export class LoginComponent implements OnInit {
   showMessages() {
     for (const k in this.loginForm.controls) {
       if (this.loginForm.controls.hasOwnProperty(k)) {
-        this.errorMessages[k] = this.hasError(k, 'required', true);
+        this.errorMessages[k] = this.hasError(k, 'pattern', true);
       }
     }
-  }
-
-
-  doValidate() {
-
-    console.log('Form: ', this.loginForm);
-    this.showMessages();
-    if (!this.loginForm.valid) {
+    if (environment.debug) {
       console.log('Error: ', this.errorMessages);
-      return;
-    }
-    // tslint:disable-next-line:one-line
-    else {
-      this.userService.login(this.data)
-      .then(response => {
-        console.log('DEBUG : ', response);
-        return true;
-      })
-      .catch(error => {
-        console.error('Error : ', error);
-        return false;
-      });
-      return false;
     }
   }
+
 }

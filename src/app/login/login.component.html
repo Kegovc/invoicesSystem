@@ -4,10 +4,9 @@
     <div class="col-md-6 offset-md-3">
         <form (submit)="doLongin()" [formGroup]="loginForm">
             <div class="form-group row">
-              <label for="inputRFC" class="col-sm-2 col-form-label">RFC</label>
+              <label for="rfc" class="col-sm-2 col-form-label">RFC</label>
               <div class="col-sm-10">
-                <input type="text"    class="form-control" id="inputRFC" value=""  [(ngModel)]="data.rfc" name="rfc" formControlName="rfc" placeholder="RFC"  >
-                <input type="hidden"  class="form-control" id="inputKEY" value=""  [(ngModel)]="data.key" name="key" formControlName="key" >
+                <input type="text" (keyup)="showMessages()"   class="form-control" id="rfc" value="" [validatedInput]="errorMessages.rfc" [(ngModel)]="data.rfc" name="rfc" formControlName="rfc" placeholder="RFC"  >
               </div>
             </div>
             <button class="btn btn-primary">Ingresar</button>

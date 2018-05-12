@@ -1,5 +1,5 @@
 import { UserService } from './shared/services/user.service';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -16,6 +16,7 @@ import { AuthService } from './shared/services/auth.service';
 
 // tslint:disable-next-line:import-blacklist
 import 'rxjs';
+import { ValidatedInputDirective } from './shared/directives/validated-input.directive';
 
 
 @NgModule({
@@ -23,14 +24,15 @@ import 'rxjs';
     AppComponent,
     LoginComponent,
     NavsComponent,
-    InvoicesComponent
+    InvoicesComponent,
+    ValidatedInputDirective
   ],
   imports: [
     BrowserModule,
-    routing,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
-    ReactiveFormsModule
+    routing
   ],
   providers: [
     CustomHttpService,
