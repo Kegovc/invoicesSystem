@@ -12,21 +12,16 @@
               <tr *ngFor="let file of files">
                 <th>{{file.name}}</th>
                 <td>{{file.date}}</td>
-                <td *ngIf="file.type=='xml'" ><button type="button" class="btn btn-primary" tooltip="Debera ingresar la contraseña para descarga" placement="right" (click)="openModal(template,file.row)">{{file.type}}</button></td>
-                <td *ngIf="file.type!='xml'" ><a href="{{root}}{{file.path}}" target="blank_" class="btn btn-primary">{{file.type}}</a></td>
+                <td><a href="{{root}}{{file.path}}" target="blank_" class="btn btn-primary">{{file.type}}</a></td>
+              </tr>
+              <tr *ngIf="empty">
+                <td colspan="3">
+                    <alert type="warning" (click)="onClick()" tooltip="Si considera que es un error comunucarse con su ejecutivo" placement="bottom">
+                        No hay facturas. Hacer click para refrescar
+                    </alert>
+                </td>
               </tr>
             </tbody>
           </table>
     </div>
-    <ng-template #template>
-        <div class="modal-header">
-          <h5 class="modal-title pull-left">{{modalData.modalName}}</h5>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form
-        </div>
-      </ng-template>
 </div>

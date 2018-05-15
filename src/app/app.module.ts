@@ -4,8 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule, ModalModule, AlertModule } from 'ngx-bootstrap';
 
 
 
@@ -17,6 +16,7 @@ import { InvoicesComponent } from './invoices/invoices.component';
 import { CustomHttpService } from './shared/services/custom-http.service';
 import { AuthService } from './shared/services/auth.service';
 import { AccessGuard } from './shared/guards/access.guard';
+import { SignInGuard } from './shared/guards/sign-in.guard';
 import { InvoiceService } from './shared/services/invoice.service';
 import { UserService } from './shared/services/user.service';
 
@@ -25,6 +25,7 @@ import { UserService } from './shared/services/user.service';
 // tslint:disable-next-line:import-blacklist
 import 'rxjs';
 import { ValidatedInputDirective } from './shared/directives/validated-input.directive';
+import { LogonComponent } from './logon/logon.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ValidatedInputDirective } from './shared/directives/validated-input.dir
     LoginComponent,
     NavsComponent,
     InvoicesComponent,
-    ValidatedInputDirective
+    ValidatedInputDirective,
+    LogonComponent
   ],
   imports: [
     BrowserModule,
@@ -45,13 +47,15 @@ import { ValidatedInputDirective } from './shared/directives/validated-input.dir
     ModalModule.forRoot(),
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+    AlertModule.forRoot(),
   ],
   providers: [
     CustomHttpService,
     AuthService,
     UserService,
     InvoiceService,
-    AccessGuard
+    AccessGuard,
+    SignInGuard
   ],
   bootstrap: [AppComponent]
 })

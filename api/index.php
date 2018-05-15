@@ -73,7 +73,7 @@ function get_files($dir){
     return array("ls"=>$file,"access"=>true);
   }
   else{
-    return array("ls"=>null,"access"=>false);
+    return array("ls"=>null,"access"=>false,'execute'=> "empty");
   }
 
 }
@@ -99,7 +99,7 @@ function login($param){
   $array=array();
   $dir = './../folios/'.strtoupper($param['rfc']);
         if (is_dir($dir)) {
-          $array['token'] = generar_token();
+          $array['token'] = generar_token()."/".strtoupper($param['rfc']);
           $array['access'] = true;
         }
         else{
@@ -118,6 +118,7 @@ function getFilesInFolder($param){
       else{
         $array['ls'] = null;
         $array['access'] = false;
+        $array['execute'] = "logon";
       }
       return $array;
 }
