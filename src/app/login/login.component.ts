@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './../shared/services/auth.service';
 import { UserService } from '../shared/services/user.service';
 import { FormBuilder, FormGroup, FormControl, Validators  } from '@angular/forms';
-
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -17,7 +17,7 @@ import { FormBuilder, FormGroup, FormControl, Validators  } from '@angular/forms
 export class LoginComponent implements OnInit {
 
   public data: any = {
-    rfc: 'vico940131sk8'
+    rfc: 'vico940131sp8'
   };
   public loginForm: FormGroup;
   public errorMessages: any = {};
@@ -25,7 +25,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -55,7 +57,12 @@ export class LoginComponent implements OnInit {
       this.userService.login(this.data)
       .then(response => {
         console.log('DEBUG : ', response);
-        this.router.navigate(['/invoices']);
+        if (response.fun.access) {
+          this.authService.setToken(response.fun.token);
+          this.router.navigate([`/invoices/${this.data['rfc']}`]);
+        } else {
+          this.toastr.error('RFC no valido');
+        }
       })
       .catch(error => {
         console.error('Error : ', error);

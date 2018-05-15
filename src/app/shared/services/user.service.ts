@@ -1,5 +1,4 @@
 import { CustomHttpService } from './custom-http.service';
-import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
 // tslint:disable-next-line:import-blacklist
