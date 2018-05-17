@@ -1,6 +1,7 @@
 import { AuthService } from './../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { environment } from './../../environments/environment';
 
 @Component({
   selector: 'app-navs',
@@ -15,11 +16,17 @@ export class NavsComponent implements OnInit {
     private router: Router,
     private authService: AuthService
   ) {
+    // tslint:disable-next-line:quotemark
+    let rfc = "";
     authService.checkLogin.next(authService.isLoggedIn());
     const token = authService.getToken();
-    const a_token = token.split('/');
-    const rfc = a_token[1];
-    authService.checkRFC.next(` RFC: ${rfc}`);
+    if (token != null) {
+      const a_token = token.split('/');
+      rfc = ` RFC: ${a_token[1]}`;
+    }
+    if (environment.debug ) { console.log('token', token); }
+    if (environment.debug ) { console.log('rfc', rfc); }
+    authService.checkRFC.next(rfc);
   }
 
   ngOnInit() {

@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --aot --prod &&  http-server ./dist -o"
+    "postinstall": "ng build --aot --prod && xcopy dist .\\..\\Facturas /s/c && rd /S /Q dist && md .\\..\\Facturas\\api, .\\..\\Facturas\\folios &&  xcopy api .\\..\\Facturas\\api /s && xcopy folios .\\..\\Facturas\\folios /s"
   },
   "engines": {
     "node": "9.11.1",
