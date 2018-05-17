@@ -10,10 +10,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./invoices.component.css']
 })
 export class InvoicesComponent implements OnInit {
-
-
-
-
+  public spin = false;
   public files: any[];
   public root: string = environment.api;
   public empty = false;
@@ -35,10 +32,19 @@ export class InvoicesComponent implements OnInit {
       if (response.fun.access) {
         this.files = response.fun.ls;
         this.empty = false;
+        if (environment.debug) { console.log(this.files); }
       } else {
         this.accesssElse(response.fun.execute);
       }
       if (environment.debug) { console.log(response); }
+      if (this.spin) {
+          let s = Date.now();
+          const e = Date.now() + 1000;
+          while (s < e) {
+            s = Date.now();
+          }
+          this.spin = false;
+      }
 
     })
     .catch(error => {
@@ -54,12 +60,14 @@ export class InvoicesComponent implements OnInit {
       case 'empty': {
         this.toastr.warning('No existen facturas por consultar');
         this.empty = true;
+        this.files = [];
         break;
       }
     }
   }
 
   onClick(): void {
+    this.spin = true;
     this.activatedRoute.params.subscribe(params => {
       this.getFileInFolder(params.rfc);
     });

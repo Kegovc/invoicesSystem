@@ -1,5 +1,5 @@
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <span class="navbar-brand">Facturas</span>
-
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
+      <span class="navbar-brand">Facturas {{rfc}}</span>
+        <button *ngIf="isLoggedIn" class="btn btn-danger " (click)="onLogon()">Salir</button>
     </nav>

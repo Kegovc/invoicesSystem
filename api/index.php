@@ -45,7 +45,24 @@ class request{
 function generar_token(){
   return date("ymdHis").str_pad(rand(0,999), 3, "0", STR_PAD_LEFT);
 }
-
+function getStrinMes($mes){
+  $a_mes = array(
+    "",
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Nobiembre",
+    "Dicimebre"
+  );
+  return $a_mes[$mes];
+}
 function get_files($dir){
 
   $files_=scandir($dir,1);
@@ -60,15 +77,23 @@ function get_files($dir){
       $file_time_ho=(strpos($nombre_archivo, ".xml")===false)?'0':'1';
       $fecha = strftime("%Y/%m/%d %H:%M:%S", $file_time);
       $a_path=explode("/folios","$dir/$nombre_archivo");
-      $file[$file_time.$file_time_ho]=array("name"=>$nombre_archivo,"date"=>$fecha,"path"=>($file_time_ho=="0"?"downloadPdf":"downloadXml").$a_path[1],"type"=>($file_time_ho=="0"?"PDF":"xml"));
+      $file[$file_time.$file_time_ho]=array("mes"=> strftime("%m", $file_time),"año"=> strftime("%Y", $file_time),"name"=>$nombre_archivo,"date"=>$fecha,"path"=>($file_time_ho=="0"?"downloadPdf":"downloadXml").$a_path[1],"type"=>($file_time_ho=="0"?"PDF":"xml"));
     }
     krsort($file);
     $temp=$file;
     $file=array();
     while(count($temp)>0){
-      $index = count($file);
-      $file[$index] = array_shift($temp);
-      $file[$index]['row'] = $index;
+      $aux = array_shift($temp);
+      $index=$aux['año'].$aux['mes'];
+      $file[$index]['title'] = getStrinMes($aux['mes']*1)." ".$aux['año'];
+      unset($aux['año']);
+      unset($aux['mes']);
+      $file[$index]['files'][]=$aux;
+    }
+    $temp=$file;
+    $file=array();
+    while(count($temp)>0){
+      $file[] = array_shift($temp);
     }
     return array("ls"=>$file,"access"=>true);
   }

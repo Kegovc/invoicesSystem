@@ -5,23 +5,23 @@
               <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Fecha</th>
-                <th scope="col"></th>
+                <th scope="col"><fa *ngIf="spin"  name="refresh" animation="spin" size="2x"  (click)="onClick()" ></fa>
+                                <fa *ngIf="!spin" name="refresh" animation=""     size="2x"  (click)="onClick()" ></fa></th>
               </tr>
             </thead>
-            <tbody>
-              <tr *ngFor="let file of files">
+            <tbody *ngFor="let mes_file of files">
+              <tr>
+                <th colspan="3">{{mes_file.title}}</th>
+              </tr>
+              <tr *ngFor="let file of mes_file.files">
                 <th>{{file.name}}</th>
                 <td>{{file.date}}</td>
                 <td><a href="{{root}}{{file.path}}" target="blank_" class="btn btn-primary">{{file.type}}</a></td>
               </tr>
-              <tr *ngIf="empty">
-                <td colspan="3">
-                    <alert type="warning" (click)="onClick()" tooltip="Si considera que es un error comunucarse con su ejecutivo" placement="bottom">
-                        No hay facturas. Hacer click para refrescar
-                    </alert>
-                </td>
-              </tr>
             </tbody>
           </table>
+          <alert *ngIf="empty" type="warning" (click)="onClick()" tooltip="Si considera que es un error comunicarse con su ejecutivo" placement="bottom">
+              No hay facturas. Hacer click para refrescar
+          </alert>
     </div>
 </div>

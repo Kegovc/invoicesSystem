@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { TooltipModule, ModalModule, AlertModule } from 'ngx-bootstrap';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 
 
@@ -48,6 +49,7 @@ import { LogonComponent } from './logon/logon.component';
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     AlertModule.forRoot(),
+    AngularFontAwesomeModule,
   ],
   providers: [
     CustomHttpService,
