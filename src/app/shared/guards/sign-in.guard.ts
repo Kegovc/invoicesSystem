@@ -20,7 +20,9 @@ export class SignInGuard implements CanActivate {
     if (!this.authService.isLoggedIn()) {
       return true;
     } else {
-      const rfc = this.authService.getToken().split('/')[1];
+      const token = this.authService.getToken();
+      const a_token = token.split('/');
+      const rfc = a_token[1];
       this.router.navigate([`/invoices/${rfc}`]);
       return false;
     }

@@ -16,7 +16,10 @@ export class NavsComponent implements OnInit {
     private authService: AuthService
   ) {
     authService.checkLogin.next(authService.isLoggedIn());
-    authService.checkRFC.next(` RFC: ${authService.getToken().split('/')[1]}`);
+    const token = authService.getToken();
+    const a_token = token.split('/');
+    const rfc = a_token[1];
+    authService.checkRFC.next(` RFC: ${rfc}`);
   }
 
   ngOnInit() {
