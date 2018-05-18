@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit {
 
   public data: any = {
-    rfc: 'vico940131sp8'
+    rfc: ''
   };
   public loginForm: FormGroup;
   public errorMessages: any = {};
