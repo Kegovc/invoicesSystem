@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  api: '//172.24.115.143/Facturas/api/',
+  api: '//www.gfmega.com/Facturas/api/',
   debug: false
 };
